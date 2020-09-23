@@ -45,10 +45,10 @@ node {
         }
     }
 
-    //stage('packaging') {
-    //    sh "./mvnw -ntp verify -P-webpack -Pprod -DskipTests"
-    //    archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-    //}
+    stage('packaging') {
+        sh "./mvnw -ntp verify -P-webpack -Pprod -DskipTests"
+        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+    }
     //stage('quality analysis') {
     //        withSonarQubeEnv('sonarlocal') {
     //         sh "./mvnw -ntp initialize sonar:sonar"
@@ -61,6 +61,7 @@ node {
         // https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#authentication-methods
      //   sh "./mvnw -ntp jib:build"
     //}
+
     def dockerImage
     stage('publish docker') {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-login', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {

@@ -49,18 +49,6 @@ node {
         sh "./mvnw -ntp verify -P-webpack -Pprod -DskipTests"
         archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
     }
-    stage('quality analysis') {
-            withSonarQubeEnv('sonarlocal') {
-             sh "./mvnw -ntp initialize sonar:sonar"
-        }
-    }
-
-   // def dockerImage
-   // stage('publish docker') {
-   //      A pre-requisite to this step is to setup authentication to the docker registry
-   //      https:github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin#authentication-methods
-   //     sh "./mvnw -ntp jib:build"
-   // }
 
     def dockerImage
     stage('publish docker') {
@@ -68,6 +56,5 @@ node {
             sh "./mvnw -ntp jib:build"
         }
     }
-
-
+    
 }
